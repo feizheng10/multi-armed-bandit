@@ -50,7 +50,7 @@ def plot_results(solvers, solver_names, figname):
 
     # Sub.fig. 3: Action counts
     for s in solvers:
-        ax3.plot(range(b.n), np.array(s.counts) / float(len(solvers[0].regrets)), ls='steps', lw=2)
+        ax3.plot(range(b.n), np.array(s.counts) / float(len(solvers[0].regrets)), ls='-', lw=2)
     ax3.set_xlabel('Actions')
     ax3.set_ylabel('Frac. # trials')
     ax3.grid('k', ls='--', alpha=0.3)
@@ -69,9 +69,8 @@ def experiment(K, N):
     """
 
     b = BernoulliBandit(K)
-    print "Randomly generated Bernoulli bandit has reward probabilities:\n", b.probas
-    print "The best machine has index: {} and proba: {}".format(
-        max(range(K), key=lambda i: b.probas[i]), max(b.probas))
+    print("Randomly generated Bernoulli bandit has reward probabilities:\n"), b.probas
+    print("The best machine has index: {} and proba: {}".format(max(range(K), key=lambda i: b.probas[i]), max(b.probas)))
 
     test_solvers = [
         # EpsilonGreedy(b, 0),
