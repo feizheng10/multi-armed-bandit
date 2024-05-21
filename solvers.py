@@ -157,3 +157,30 @@ class ThompsonSampling(Solver):
         self._bs[i] += (1 - r)
 
         return i
+
+
+class ThompsonSamplingNormal(Solver):
+    def __init__(self, bandit, init_mean=0, init_var=1):
+        """
+        init_mean (float): initial mean of the Normal distribution.
+        init_var (float): initial variance of the Normal distribution.
+        """
+        super(ThompsonSamplingNormal, self).__init__(bandit)
+
+        self.means = [init_mean] * self.bandit.n
+        self.vars = [init_var] * self.bandit.n
+
+    @property
+    def estimated_probas(self):
+        return self.means
+
+    def run_one_step(self):
+        samples = [np.random.normal(self.means[x], np.sqrt(self.vars[x])) for x in range(self.bandit.n)]
+        i = max(range(self.bandit.n), key=lambda x: samples[x])
+        r = self.bandit.generate_reward(i)
+
+        # Update mean and variance using Bayesian update for Normal distribution with known variance
+        self.vars[i] = 1 / (1 / self.vars[i] + 1)
+        self.means[i] = self.means[i] + self.vars[i] * (r - self.means[i])
+
+        return i

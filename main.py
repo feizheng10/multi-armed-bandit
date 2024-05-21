@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from bandits import BernoulliBandit
-from solvers import Solver, EpsilonGreedy, UCB1, BayesianUCB, ThompsonSampling
+from solvers import Solver, EpsilonGreedy, UCB1, BayesianUCB, ThompsonSampling, ThompsonSamplingNormal
 
 
 def plot_results(solvers, solver_names, figname):
@@ -78,15 +78,15 @@ def experiment(K, N):
         EpsilonGreedy(b, 0.01),
         UCB1(b),
         BayesianUCB(b, 3, 1, 1),
-        ThompsonSampling(b, 1, 1)
+        ThompsonSampling(b, 1, 1),
+        ThompsonSamplingNormal(b, 0, 1)
     ]
     names = [
-        # 'Full-exploitation',
-        # 'Full-exploration',
         r'$\epsilon$' + '-Greedy',
         'UCB1',
         'Bayesian UCB',
-        'Thompson Sampling'
+        'Thompson Sampling',
+        'Thompson Sampling with Normal distribution'
     ]
 
     for s in test_solvers:
