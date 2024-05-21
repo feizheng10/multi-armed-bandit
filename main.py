@@ -64,12 +64,12 @@ def experiment(K, N):
     each with a randomly initialized reward probability.
 
     Args:
-        K (int): number of slot machiens.
+        K (int): number of slot machines.
         N (int): number of time steps to try.
     """
 
     b = BernoulliBandit(K)
-    print("Randomly generated Bernoulli bandit has reward probabilities:\n"), b.probas
+    print("Randomly generated Bernoulli bandit has reward probabilities:\n", b.probas)
     print("The best machine has index: {} and proba: {}".format(max(range(K), key=lambda i: b.probas[i]), max(b.probas)))
 
     test_solvers = [
