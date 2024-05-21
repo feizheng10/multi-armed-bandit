@@ -4,7 +4,7 @@ matplotlib.use('Agg')  # noqa
 import matplotlib.pyplot as plt
 import numpy as np
 
-from bandits import BernoulliBandit
+from bandits import BernoulliBandit, NormalBandit
 from solvers import Solver, EpsilonGreedy, UCB1, BayesianUCB, ThompsonSampling, ThompsonSamplingNormal
 
 
@@ -69,6 +69,7 @@ def experiment(K, N):
     """
 
     b = BernoulliBandit(K)
+    b_normal = NormalBandit(K)
     print("Randomly generated Bernoulli bandit has reward probabilities:\n", b.probas)
     print("The best machine has index: {} and proba: {}".format(max(range(K), key=lambda i: b.probas[i]), max(b.probas)))
 
@@ -79,7 +80,7 @@ def experiment(K, N):
         UCB1(b),
         BayesianUCB(b, 3, 1, 1),
         ThompsonSampling(b, 1, 1),
-        ThompsonSamplingNormal(b, 0, 1)
+        ThompsonSamplingNormal(b_normal, 0, 1)
     ]
     names = [
         r'$\epsilon$' + '-Greedy',

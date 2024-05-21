@@ -4,7 +4,7 @@ import numpy as np
 import time
 from scipy.stats import beta
 
-from bandits import BernoulliBandit
+from bandits import Bandit, BernoulliBandit, NormalBandit
 
 
 class Solver(object):
@@ -12,7 +12,7 @@ class Solver(object):
         """
         bandit (Bandit): the target bandit to solve.
         """
-        assert isinstance(bandit, BernoulliBandit)
+        assert isinstance(bandit, Bandit)
         np.random.seed(int(time.time()))
 
         self.bandit = bandit
@@ -24,7 +24,10 @@ class Solver(object):
 
     def update_regret(self, i):
         # i (int): index of the selected machine.
-        self.regret += self.bandit.best_proba - self.bandit.probas[i]
+        if isinstance(self.bandit, NormalBandit):
+            self.regret += self.bandit.best_mean - self.bandit.means[i]
+        else:
+            self.regret += self.bandit.best_proba - self.bandit.probas[i]
         self.regrets.append(self.regret)
 
     @property
